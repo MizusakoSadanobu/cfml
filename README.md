@@ -3,9 +3,13 @@
 特徴量$x$から目的変数$y$を求めるための関数$y=f(x)$を推定する問題。
 - 理想的に解きたい問題
 
-$f^{*}=\argmin_{f \in F}L(f)$
+```math
+f^{*}=\argmin_{f \in F}L(f)
+```
 
-$L(f) := \mathbb{E}_{p(x,y)}[(y-f(x))^2]$
+```math
+L(f) := \mathbb{E}_{p(x,y)}[(y-f(x))^2]
+```
 
 - 実際に解く問題
 
