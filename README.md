@@ -4,17 +4,17 @@
 - 理想的に解きたい問題
 
 ```math
-f^{*}=\rm{argmin}_{f \in F}L(f)
+f^{*}=\text{argmin}_{f \in F}L(f)
 ```
 
 ```math
-L(f) := \rm{E}_{p(x,y)}[(y-f(x))^2]
+L(f) := \text{E}_{p(x,y)}[(y-f(x))^2]
 ```
 
 - 実際に解く問題
 
 ```math
-\hat{f}=\argmin_{f \in F}\hat{L}(f;D)
+\hat{f}=\text{argmin}_{f \in F}\hat{L}(f;D)
 ```
 
 ```math
@@ -26,7 +26,7 @@ L(f) := \rm{E}_{p(x,y)}[(y-f(x))^2]
 **平均介入効果（ATE: Average Treatment Effect）：**
 
 ```math
-\tau := \mathbb{E}_{p(y(1),y(0))}[y(1)-y(0)] = \mathbb{E}_{p(y(1))}[y(1)] - \mathbb{E}_{p(y(0))}[y(0)]
+\tau := \text{E}_{p(y(1),y(0))}[y(1)-y(0)] = \text{E}_{p(y(1))}[y(1)] - \text{E}_{p(y(0))}[y(0)]
 ```
 
 これが機能するための前提：
@@ -43,14 +43,14 @@ L(f) := \rm{E}_{p(x,y)}[(y-f(x))^2]
 上記の$\hat{\tau}_{AVG}(D)$と$\tau $は一致するのか？
 
 ```math
-\hat{\tau}_{AVG}(D)=\mathbb{E}_{p(x,y(1))}[e(x)y(1)]-\mathbb{E}_{p(x,y(0))}[(1-e(x))y(0)]$
+\hat{\tau}_{AVG}(D)=\text{E}_{p(x,y(1))}[e(x)y(1)]-\text{E}_{p(x,y(0))}[(1-e(x))y(0)]
 ```
 
 ```math
 \neq \tau
 ```
 
-ただし、$e(x):=\mathbb{E}_{p(w|x)}[w]$、介入を受ける確率を表す。
+ただし、$e(x):=\text{E}_{p(w|x)}[w]$、介入を受ける確率を表す。
 
 $e(x)$によって$\hat{\tau}_{AVG}(D)$はバイアスを受けてしまう。<br>
 →では、どのように補正するのか？<br>
