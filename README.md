@@ -21,7 +21,7 @@ L(f) := \text{E}_{p(x,y)}[(y-f(x))^2]
 \hat{L}_{AVG}(f;D):=\frac{1}{n} \sum_{i=1}^n l(y_i, f(x_i))
 ```
 
-典型的には、$\hat{L}_{AVG}(f;D)$ がよく用いられるが、これが本当に適切なのかを疑う必要あり。
+典型的には、 $\hat{L}_{AVG}(f;D)$ がよく用いられるが、これが本当に適切なのかを疑う必要あり。
 
 **平均介入効果（ATE: Average Treatment Effect）：**
 
