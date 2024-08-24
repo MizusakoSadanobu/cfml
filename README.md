@@ -40,7 +40,7 @@ L(f) := \text{E}_{p(x,y)}[(y-f(x))^2]
 \hat{\tau}_{AVG}(D):=\frac{1}{n}\sum_{i=1}^n w_i y_i - \frac{1}{n}\sum_{i=1}^n (1-w_i) y_i
 ```
 
-上記の $\hat{\tau}_{AVG}(D)$ と $\tau $ は一致するのか？
+上記の $\hat{\tau}_{AVG}(D)$ と $\tau$ は一致するのか？
 
 ```math
 \hat{\tau}_{AVG}(D)=\text{E}_{p(x,y(1))}[e(x)y(1)]-\text{E}_{p(x,y(0))}[(1-e(x))y(0)]
