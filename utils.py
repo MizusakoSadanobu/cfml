@@ -67,6 +67,7 @@ def aggregate_simulation_results(
         .stack()
         .reset_index(1)
         .rename(columns={"level_1": "est2", 0: "selection"})
+        .drop(columns=["est2"])
     )
     result_df = pd.concat([estimation_result_df, selection_result_df], axis=1)
     result_df[experiment_config_name] = experiment_config_value
