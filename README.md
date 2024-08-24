@@ -52,7 +52,7 @@ L(f) := \text{E}_{p(x,y)}[(y-f(x))^2]
 
 ただし、$e(x):=\text{E}_{p(w|x)}[w]$、介入を受ける確率を表す。
 
-$e(x)$によって$\hat{\tau}_{AVG}(D)$はバイアスを受けてしまう。<br>
+$e(x)$ によって $\hat{\tau}_{AVG}(D)$ はバイアスを受けてしまう。<br>
 →では、どのように補正するのか？<br>
 →**IPS** (Inverse Propensity Score: IPS)による補正。
 
