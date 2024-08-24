@@ -5,7 +5,7 @@ import pandas as pd
 from pandas import DataFrame
 from sklearn.utils import check_random_state
 from scipy.stats import rankdata
-import torch
+import tensorflow as tf
 
 
 def sample_action_fast(pi: np.ndarray, random_state: int = 12345) -> np.ndarray:
@@ -91,7 +91,7 @@ def aggregate_simulation_results(
 
 
 @dataclass
-class RegBasedPolicyDataset(torch.utils.data.Dataset):
+class RegBasedPolicyDataset(tf.data.Dataset):
     context: np.ndarray
     action: np.ndarray
     reward: np.ndarray
@@ -110,9 +110,13 @@ class RegBasedPolicyDataset(torch.utils.data.Dataset):
     def __len__(self):
         return self.context.shape[0]
 
+    def as_dataset(self):
+        """Convert to a tf.data.Dataset object"""
+        return tf.data.Dataset.from_tensor_slices((self.context, self.action, self.reward))
+
 
 @dataclass
-class GradientBasedPolicyDataset(torch.utils.data.Dataset):
+class GradientBasedPolicyDataset(tf.data.Dataset):
     context: np.ndarray
     action: np.ndarray
     reward: np.ndarray
@@ -143,3 +147,16 @@ class GradientBasedPolicyDataset(torch.utils.data.Dataset):
 
     def __len__(self):
         return self.context.shape[0]
+
+    def as_dataset(self):
+        """Convert to a tf.data.Dataset object"""
+        return tf.data.Dataset.from_tensor_slices(
+            (
+                self.context,
+                self.action,
+                self.reward,
+                self.pscore,
+                self.q_hat,
+                self.pi_0,
+            )
+        )
