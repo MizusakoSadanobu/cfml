@@ -4,7 +4,7 @@ from dataclasses import dataclass
 import numpy as np
 from sklearn.utils import check_random_state
 import tensorflow as tf
-from tensorflow.keras import layers, models, optimizers
+from tensorflow.python.keras import layers, models, optimizers
 
 from utils import GradientBasedPolicyDataset  # utilsモジュールが適用可能か確認してください
 
