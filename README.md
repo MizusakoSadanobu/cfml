@@ -141,16 +141,19 @@ $$\text{MSE}[V̂(π;𝒟)] = \text{Bias}[V̂(π;𝒟)]^2 + \text{Var}[V̂(π;�
 - オンライン実験とは？
     - 評価方策πそのものを実装して得たログデータを使ってV(π)を推定すること（A/Bテストなど）
 
-**AVG推定量の定義：**
+#### AVG推定量
+
+**定義：**
 ```math
 \hat{V}_{AVG}(\pi;\mathcal{D}_{online}):=\frac{1}{n}\sum_{i=1}^{n}r_i
 ```
 
-**AVG推定量の性質：**
+**性質：**
 - バイアスゼロ！
 
 ### オフライン実験における方策推定
-**Direct Method (DM)推定量の定義：**
+#### Direct Method (DM)推定量
+**定義：**
 
 ```math
 \hat{V}_{DM}(\pi,\mathcal{D},\hat{q}):=\frac{1}{n}\sum_{i=1}^{n} \hat{q}(x_i, \pi) = \frac{1}{n}\sum_{i=1}^{n} \sum_{a \in \mathcal{A}} \pi(a|x_i)\hat{q}(x_i, a) 
@@ -162,23 +165,21 @@ $$\text{MSE}[V̂(π;𝒟)] = \text{Bias}[V̂(π;𝒟)]^2 + \text{Var}[V̂(π;�
 \hat{q}(x_i, a) = \text{argmin}_{q' \in \mathcal{Q}} \frac{1}{n} \sum_{i=1}^{n} l_{r}(r_{i}, q'(x_i, a_i))
 ```
 
-**Direct Method (DM)推定量の課題：**
-- バイアスがある
-    - Nを大きくしてもバイアスを除去できない（ことがある）
+**課題：**
 
-バイアス：
+Nを大きくしてもバイアスを除去できない（ことがある）。以下において、$\Delta_{q,\hat{q}}(x,a)$ はモデルの精度。モデル精度改善のためには、 $q(x,a)$ が広くアクションをサポートする必要があるが、一般にそのような仮定を満たさないことが多い。
+
+- バイアス：
 
 ```math
 \text{Bias}[\hat{V}_{DM}(\pi;\mathcal{D},\hat{q})]=\mathbb{E}_{p(x)\pi(a|x)}[\Delta_{q,\hat{q}}(x,a)]
 ```
 
-ただし、 $\Delta_{q,\hat{q}}(x,a)$ はモデルの精度。モデル精度改善のためには、 $q(x,a)$ が広くアクションをサポートする必要があるが、一般にそのような仮定を満たさないことが多い。
-
 ```math
 \Delta_{q,\hat{q}}(x,a):=\hat{q}(x,a)-q(x,a)
 ```
 
-バリアンス：
+- バリアンス：
 
 ```math
 \text{Var}[\hat{V}_{DM}(\pi;\mathcal{D},\hat{q})]=\frac{1}{n}\mathbb{V}_{p(x)}[\hat{q}(x,\pi)]
