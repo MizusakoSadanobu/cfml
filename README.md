@@ -115,21 +115,17 @@ graph TD;
     D --> |新たに運用する方策が\n 次期のデータ収集方策に\n π0←π| A
 ```
 **平均二乗誤差:**
+
 $$\text{MSE}[V̂(π;𝒟)] = \text{E}_{\mathcal{D}} \left[ (V(π) - V̂(π;𝒟))^2 \right]$$
 
-**平均二乗誤差の分解**
+**平均二乗誤差の分解:**
+
 平均二乗誤差は、推定量の **二乗バイアス（squared bias）** と **バリアンス（variance）** に分解できる。
 
-$$
-\text{MSE}[V̂(π;𝒟)] = \text{Bias}[V̂(π;𝒟)]^2 + \text{Var}[V̂(π;𝒟)]
-$$
+$$\text{MSE}[V̂(π;𝒟)] = \text{Bias}[V̂(π;𝒟)]^2 + \text{Var}[V̂(π;𝒟)]$$
 
 ここで、
 
-$$
-\text{Bias}[V̂(π;𝒟)] = \mathbb{E}_{\mathcal{D}}[V̂(π;𝒟)] - V(π)
-$$
+$$\text{Bias}[V̂(π;𝒟)] = \mathbb{E}_{\mathcal{D}}[V̂(π;𝒟)] - V(π)$$
 
-$$
-\text{Var}[V̂(π;𝒟)] = \mathbb{E}_{\mathcal{D}} \left[ (V̂(π;𝒟) - \mathbb{E}_{\mathcal{D}}[V̂(π;𝒟)])^2 \right]
-$$
+$$\text{Var}[V̂(π;𝒟)] = \mathbb{E}_{\mathcal{D}} [ (V̂(π;𝒟) - \mathbb{E}_{\mathcal{D}}[V̂(π;𝒟)])^2 ]$$
