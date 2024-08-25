@@ -129,3 +129,4 @@ $$\text{MSE}[V̂(π;𝒟)] = \text{Bias}[V̂(π;𝒟)]^2 + \text{Var}[V̂(π;�
 $$\text{Bias}[V̂(π;𝒟)] = \text{E}_{\mathcal{D}}[V̂(π;𝒟)] - V(π)\\
 \text{Var}[V̂(π;𝒟)] = \text{E}_{\mathcal{D}} [ (V̂(π;𝒟) - \text{E}_{\mathcal{D}}[V̂(π;𝒟)])^2 ]$$
 
+aa
