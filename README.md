@@ -185,6 +185,37 @@ Nを大きくしてもバイアスを除去できない（ことがある）。�
 \text{Var}[\hat{V}_{DM}(\pi;\mathcal{D},\hat{q})]=\frac{1}{n}\mathbb{V}_{p(x)}[\hat{q}(x,\pi)]
 ```
 
+#### Inverse Propensity Score (IPS)推定量
+**定義：**
+
+```math
+\hat{V}_{IPS}(\pi,\mathcal{D}):=\frac{1}{n}\sum_{i=1}^{n} \frac{\pi(a_i|x_i)}{\pi_{0}(a_i|x_i)}r_{i} = \frac{1}{n}\sum_{i=1}^{n} w(x_i, a_i) r_{i}
+```
+
+**課題：**
+データ収集方策と大きく異なるデータ収集方策を評価する際に、バリアンスが大きくなる。
+
+- バイアス：
+
+```math
+\text{Bias}[\hat{V}_{DM}(\pi;\mathcal{D})]=0
+```
+
+```math
+\big( \mathbb{E}_{p(\mathcal{D})} [\hat{V}_{IPS}(\pi;\mathcal{D})]=V(\pi) \big)
+```
+
+- バリアンス：
+
+```math
+\text{MSE}[\hat{V}_{IPS}(\pi;\mathcal{D})]= \text{Var}[\hat{V}_{IPS}(\pi;\mathcal{D})]\\ 
+```
+
+```math
+=\frac{1}{n} \Big( \mathbb{E}_{p(x)\pi_{0}(a|x)}[w(x,a)q(x,a)] + \mathbb{E}_{p(x)}\big[\mathbb{V}_{\pi_{0}(a|x)}[w(x,a)q(x,a)]\Big] + \mathbb{V}_{p(x)}[q(x,\pi)]\Big)
+```
+
+
 |     | DM推定量 | IPS推定量 | DR推定量 |
 |-----|-----|-----|-----|
 | アイデア | 期待報酬関数を推定 | 重要度重みによる報酬の重みづけ平均 | DMとIPSの組み合わせ |
