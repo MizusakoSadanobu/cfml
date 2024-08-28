@@ -221,6 +221,17 @@ Nを大きくしてもバイアスを除去できない（ことがある）。�
 =\frac{1}{n} \Big( \mathbb{E}_{p(x)\pi_{0}(a|x)}[w(x,a)q(x,a)] + \mathbb{E}_{p(x)}\big[\mathbb{V}_{\pi_{0}(a|x)}[w(x,a)q(x,a)]\Big] + \mathbb{V}_{p(x)}[q(x,\pi)]\Big)
 ```
 
+#### Doubly Robust (DR)推定量
+**定義：**
+
+```math
+\hat{V}_{\text{DR}}(\pi; D, \hat{q}) = \frac{1}{n} \sum_{i=1}^n \big[q(x_i, a_i; \pi) + w(x_i, a_i) (r_i - q(x_i, a_i)) \big]
+```
+
+```math
+= \hat{V}_{\text{DM}}(\pi; D, \hat{q}) + \frac{1}{n} \sum_{i=1}^n w(x_i, a_i) (r_i - q(x_i, a_i))  
+```
+
 
 |     | DM推定量 | IPS推定量 | DR推定量 |
 |-----|-----|-----|-----|
