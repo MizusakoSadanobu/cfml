@@ -193,9 +193,15 @@ Nを大きくしてもバイアスを除去できない（ことがある）。�
 ```
 
 **課題：**
+
 データ収集方策と大きく異なるデータ収集方策を評価する際に、バリアンスが大きくなる。
 
 - バイアス：
+
+```math
+\text{Bias}[\hat{V}_{\text{IPS}}(\pi; D)] = -\mathbb{E}_{p(x)}\left[\sum_{a \in \mathcal{A}(x, \pi, m)} \pi(a) q(a, x)\right]
+```
+ただし、共通サポートの仮定が満たされる場合、
 
 ```math
 \text{Bias}[\hat{V}_{DM}(\pi;\mathcal{D})]=0
