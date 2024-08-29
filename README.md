@@ -232,9 +232,107 @@ Nを大きくしてもバイアスを除去できない（ことがある）。�
 = \hat{V}_{\text{DM}}(\pi; D, \hat{q}) + \frac{1}{n} \sum_{i=1}^n w(x_i, a_i) (r_i - \hat{q}(x_i, a_i))  
 ```
 
-
+#### 推定量の比較
 |     | DM推定量 | IPS推定量 | DR推定量 |
 |-----|-----|-----|-----|
 | アイデア | 期待報酬関数を推定 | 重要度重みによる報酬の重みづけ平均 | DMとIPSの組み合わせ |
 | バイアス | **大** | ゼロ | ゼロ |
 | バリアンス | 小 | **大** | 中 |
+
+#### 数値実験
+- 報酬モデルが正しい場合と、そうでない場合とで、各種推定量による誤差を比較した
+
+##### 報酬モデルが正しい場合:
+- 以下の線形モデルでデータを生成
+```python
+class Simulator:
+    def generate_linear_data(self):
+        num_data = self.num_data
+
+        # x1, x2という説明変数を正規分布から生成し、それに基づいて確率・介入変数・報酬を生成
+        self.df = pd.DataFrame({
+            "x1": np.random.normal(size=num_data),
+            "x2": np.random.normal(size=num_data),    
+        }).assign(
+            # 介入が行われる確率をシグモイド関数で計算
+            prob_t = lambda df: sigmoid(df.x1**2+df.x2),
+            # ランダムに介入の実施有無を決定（prob_tに基づく）
+            t = lambda df: (df.prob_t >= np.random.uniform(size=num_data))*1,
+            # 報酬はx1, x2に介入の有無を加味して決定
+            reward = lambda df: df.x1 - df.x2 + df.t
+        )
+```
+- DM、DRでは線形モデルを用いて報酬を推定
+```python
+class Simulator:
+    def IPS(self):
+        df = self.df
+        # 介入の確率をロジスティック回帰で推定
+        mode = LogisticRegression().fit(X=df[["x1", "x2"]], y=df["t"]==1)
+        df["t_pred"] = mode.predict_proba(df[["x1", "x2"]])[:,1]
+
+        # 介入が行われた場合と行われなかった場合の報酬を推定（逆確率重み付き平均）
+        df["reward_treatment"] = df["reward"]*df["t"]/df["t_pred"]
+        df["reward_no_treatment"] = df["reward"]*(1-df["t"])/(1-df["t_pred"])
+
+        # 推定された因果効果の誤差（真の効果との差）を計算
+        return abs((df["reward_treatment"]-df["reward_no_treatment"]).mean()-1)
+
+    def DM(self):
+        df = self.df
+        # 線形回帰で報酬を予測（説明変数はx1, x2, t）
+        mode = LinearRegression().fit(X=df[["x1", "x2", "t"]], y=df["reward"])
+        
+        # 介入が行われた場合と行われなかった場合の報酬を予測
+        df["reward_treatment"] = mode.predict(df[["x1", "x2", "t"]].assign(t=1))
+        df["reward_no_treatment"] = mode.predict(df[["x1", "x2", "t"]].assign(t=0))
+
+        # 推定された因果効果の誤差（真の効果との差）を計算
+        return abs((df["reward_treatment"]-df["reward_no_treatment"]).mean()-1)
+
+    def DR(self):
+        df = self.df
+        # 線形回帰で報酬を予測（説明変数はx1, x2, t）
+        mode1 = LinearRegression().fit(X=df[["x1", "x2", "t"]], y=df["reward"])
+        
+        # 介入が行われた場合と行われなかった場合の報酬を予測
+        df["reward_treatment_pred"] = mode1.predict(df[["x1", "x2", "t"]].assign(t=1))
+        df["reward_no_treatment_pred"] = mode1.predict(df[["x1", "x2", "t"]].assign(t=0))
+
+        # 介入の確率をロジスティック回帰で推定
+        mode2 = LogisticRegression().fit(X=df[["x1", "x2"]], y=df["t"]==1)
+        df["t_pred"] = mode2.predict_proba(df[["x1", "x2"]])[:,1]
+
+        # 介入が行われた場合と行われなかった場合の報酬を推定（逆確率重み付き平均）
+        df["weight_treatment"] = df["t"]/df["t_pred"]
+        df["weight_no_treatment"] = (1-df["t"])/(1-df["t_pred"])
+
+        df["reward_treatment"] = df["reward_treatment_pred"]+df["weight_treatment"]*(df["reward"]-df["reward_treatment_pred"])
+        df["reward_no_treatment"] = df["reward_no_treatment_pred"]+df["weight_no_treatment"]*(df["reward"]-df["reward_no_treatment_pred"])
+
+        # 推定された因果効果の誤差（真の効果との差）を計算
+        return abs((df["reward_treatment"]-df["reward_no_treatment"]).mean()-1)
+```
+- 結果、DM、DRは誤差ゼロ。IPSはデータ量が増えるにつれて誤差減。
+![](./image/linear.png)
+##### 報酬モデルが正しい場合:
+- 以下の線形モデルでデータを生成
+```python
+class Simulator:
+    def generate_linear_data(self):
+        num_data = self.num_data
+
+        # x1, x2という説明変数を正規分布から生成し、それに基づいて確率・介入変数・報酬を生成
+        self.df = pd.DataFrame({
+            "x1": np.random.normal(size=num_data),
+            "x2": np.random.normal(size=num_data),    
+        }).assign(
+            # 介入が行われる確率をシグモイド関数で計算
+            prob_t = lambda df: sigmoid(df.x1**2+df.x2),
+            # ランダムに介入の実施有無を決定（prob_tに基づく）
+            t = lambda df: (df.prob_t >= np.random.uniform(size=num_data))*1,
+            # 報酬はx1, x2に介入の有無を加味して決定
+            reward = lambda df: df.x1 - df.x2 + df.t
+        )
+```
+![](./image/nonlinear.png)
