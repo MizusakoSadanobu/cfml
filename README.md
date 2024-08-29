@@ -225,11 +225,11 @@ Nを大きくしてもバイアスを除去できない（ことがある）。�
 **定義：**
 
 ```math
-\hat{V}_{\text{DR}}(\pi; D, \hat{q}) = \frac{1}{n} \sum_{i=1}^n \big[q(x_i, a_i; \pi) + w(x_i, a_i) (r_i - q(x_i, a_i)) \big]
+\hat{V}_{\text{DR}}(\pi; D, \hat{q}) = \frac{1}{n} \sum_{i=1}^n \big[\hat{q}(x_i, a_i; \pi) + w(x_i, a_i) (r_i - \hat{q}(x_i, a_i)) \big]
 ```
 
 ```math
-= \hat{V}_{\text{DM}}(\pi; D, \hat{q}) + \frac{1}{n} \sum_{i=1}^n w(x_i, a_i) (r_i - q(x_i, a_i))  
+= \hat{V}_{\text{DM}}(\pi; D, \hat{q}) + \frac{1}{n} \sum_{i=1}^n w(x_i, a_i) (r_i - \hat{q}(x_i, a_i))  
 ```
 
 
