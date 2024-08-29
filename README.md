@@ -319,7 +319,7 @@ class Simulator:
 - 以下の線形モデルでデータを生成
 ```python
 class Simulator:
-    def generate_linear_data(self):
+    def generate_nonlinear_data(self):
         num_data = self.num_data
 
         # x1, x2という説明変数を正規分布から生成し、それに基づいて確率・介入変数・報酬を生成
@@ -327,12 +327,16 @@ class Simulator:
             "x1": np.random.normal(size=num_data),
             "x2": np.random.normal(size=num_data),    
         }).assign(
-            # 介入が行われる確率をシグモイド関数で計算
-            prob_t = lambda df: sigmoid(df.x1**2+df.x2),
+            # 介入が行われる確率をシグモイド関数で計算（非線形な関係を反映）
+            prob_t = lambda df: sigmoid(df.x1+df.x2),
             # ランダムに介入の実施有無を決定（prob_tに基づく）
             t = lambda df: (df.prob_t >= np.random.uniform(size=num_data))*1,
-            # 報酬はx1, x2に介入の有無を加味して決定
-            reward = lambda df: df.x1 - df.x2 + df.t
+            # 報酬は非線形な関数で計算
+            reward = lambda df: sigmoid(np.sin(df.x1) - df.x2**4) + df.t
         )
 ```
+- モデルは上記同様、線形モデルを使用
+- この時、DMではデータを増やしても誤差が減らない
+- IPS、DRではデータ量を増やすにつれて誤差が減る
+- また、DRはIPSを上回る精度を出している
 ![](./image/nonlinear.png)
