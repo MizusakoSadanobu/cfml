@@ -343,7 +343,7 @@ class Simulator:
 
 ## 改善のテクニック
 ### Clipped Inverse Propensity Score (CIPS)
-定義 1.7. データ収集方策 π₀ が収集したデータ D が与えられたとき、評価方策の性能 V(π) に対する Clipped Inverse Propensity Score (CIPS) 推定量は、次のように表される。
+データ収集方策 π₀ が収集したデータ D が与えられたとき、評価方策の性能 V(π) に対する Clipped Inverse Propensity Score (CIPS) 推定量は、次のように表される。
 
 ```math
 \hat{V}_{\text{CIPS}}(\pi; D, \lambda) = \frac{1}{n} \sum_{i=1}^n \min[w(x_i, a_i; \lambda), \lambda] r_i
@@ -352,3 +352,14 @@ class Simulator:
 なお、λ ≥ 0 は CIPS 推定量のバイアス・バリアンス・トレードオフを調整するハイパーパラメータである。また $w(x_i, a_i; λ) = π(a_i|x_i) / π₀(a_i|x_i)$ は、IPS 推定量と同様の重要度重みである。
 
 ### Self-Normalized Inverse Propencity Score (SNIPS)
+データ収集方策 π₀ が収集したログデータ D が与えられたとき、評価方策の性能 V(π) に対する Self-Normalized Inverse Propensity Score (SNIPS) 推定量は、次のように表される。
+
+$$
+\hat{V}_{\text{SNIPS}}(\pi; D) = \frac{1}{\sum_{i=1}^n w(x_i, a_i)} \sum_{i=1}^n w(x_i, a_i) r_i
+$$
+
+なお $w(x, a) = π(a|x) / π₀(a|x)$ は、IPS 推定量と同様の重要度重みである。
+
+**利点：**
+
+SNIPS推定量はハイパーパラメータチューニングや期待報酬関数の推定モデルq(x, a)の学習を行う必要が一切ないにもかかわらず、多くの場合IPS推定量よりも正確でDR推定量にも匹敵する精度を発揮できるため、(適切にチューニングされたほかの推定量の方が正確である可能性は大いにあり) 初手に用いる推定量として便利。
