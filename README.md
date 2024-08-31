@@ -340,3 +340,15 @@ class Simulator:
 - IPS、DRではデータ量を増やすにつれて誤差が減る
 - また、DRはIPSを上回る精度を出している
 ![](./image/nonlinear.png)
+
+## 改善のテクニック
+### Clipped Inverse Propensity Score (CIPS)
+定義 1.7. データ収集方策 π₀ が収集したデータ D が与えられたとき、評価方策の性能 V(π) に対する Clipped Inverse Propensity Score (CIPS) 推定量は、次のように表される。
+
+```math
+\hat{V}_{\text{CIPS}}(\pi; D, \lambda) = \frac{1}{n} \sum_{i=1}^n \min[w(x_i, a_i; \lambda), \lambda] r_i
+```
+
+なお、λ ≥ 0 は CIPS 推定量のバイアス・バリアンス・トレードオフを調整するハイパーパラメータである。また $w(x_i, a_i; λ) = π(a_i|x_i) / π₀(a_i|x_i)$ は、IPS 推定量と同様の重要度重みである。
+
+### Self-Normalized Inverse Propencity Score (SNIPS)
