@@ -32,3 +32,18 @@ V(π) := E_{p(x|\pi)\pi(a|x)p(r|x,a)}\Big[\sum_{k=1}^K α_k r_k(x,a)]\Big] = E_{
 
 $q_k(x,a) = E[r(k)|x,a]$ は、特徴量 x とランキング π が与えられたときに、k番目のポジションで発生する報酬 r(k) の期待値であり、ポジションレベルの**期待報酬関数 (position-level expected reward function)** と呼ぶ。
 $α_k (≥ 0)$ は、分析者によって事前に設定されるようなk番目のポジションの重要度。
+
+## IPSの問題点
+### IPSの定義
+あるデータ収集方策 π₀ により収集されたログデータ D を用いるとき、ランキング方策 π の性能 V(π) に対する IPS 推定量は、次のように表される。
+
+```math
+V̂_{IPS}(π; D) = \frac{1}{n} \sum_{i=1}^n \frac{π(a_i | x_i)}{ π₀(a_i | x_i)} \sum_{k=1}^K α_k r_i(k)\\
+= \frac{1}{n}  \sum_{i=1}^n w(x_i, a_i)  \sum_{k=1}^K α_k  r_i(k)
+```
+
+ここで、
+
+$w(x_i, a_i) = π(a_i | x_i) / π₀(a_i | x_i)$ は、評価方策 π とデータ収集方策 π₀ による行動選択確率の比であり、ランキングレベルの重要度重み (ranking-level importance weight) と呼ばれる。
+$V̂_{IPS}^k(π; D) = (1/n)  \sum_{i=1}^n w(x_i, a_i) r_i(k)$ により、k番目のポジションにおける期待報酬に対する IPS 推定量を表すことができる。
+$V̂_{IPS}(π; D) = \sum_{k=1}^K α_k V̂_{IPS}^k(π; D)$
