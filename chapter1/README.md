@@ -228,6 +228,7 @@ class Simulator:
         return abs((df["reward_treatment"]-df["reward_no_treatment"]).mean()-1)
 ```
 - 結果、DM、DRは誤差ゼロ。IPSはデータ量が増えるにつれて誤差減。
+
 ![](../image/linear.png)
 ##### 報酬モデルが正しい場合:
 - 以下の線形モデルでデータを生成
@@ -253,6 +254,7 @@ class Simulator:
 - この時、DMではデータを増やしても誤差が減らない
 - IPS、DRではデータ量を増やすにつれて誤差が減る
 - また、DRはIPSを上回る精度を出している
+
 ![](../image/nonlinear.png)
 
 ## 改善のテクニック
