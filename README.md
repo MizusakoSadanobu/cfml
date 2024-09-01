@@ -16,4 +16,4 @@
 
 - [Chapter 0: 基礎知識](./chapter0)
 - [Chapter 1: 標準的なオフ方策評価](./chapter1/)
-- [Chapter 1: ランキングにおけるオフ方策評価](./chapter2/)
+- [Chapter 2: ランキングにおけるオフ方策評価](./chapter2/)
